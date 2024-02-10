@@ -32,9 +32,13 @@
 \usepackage{cmap}									
 \usepackage{tabularx}
 \usepackage{tikz}
+\usepackage{chngcntr}
+
+\counterwithin*{equation}{section}
 \usepackage{longtable}
 \title{
 	Степанов Линейная алгебра.
+	\date{}.
 }
 \usepackage{easybmat}		
 \begin{document}
@@ -200,5 +204,112 @@ $$
 
 \textbf{Определение 4}
 Рангом матрицы А называется число rkA определённое любым выше указанным эквивалентным способом.
-	\end{document}
+\section{09.02.24 2 лекция}
+\subsection{Определение 1. Векторное(линейное) пространство}
+	\indent Векторное(Линейное) пространство -- это множество $V$ с введенными на нём двух операций + и $\lambda \cdot \ , \lambda \in \mathbb{R}$ которые удовлетворяют следующим условиям( аксиомам векторного пространства)
+	\begin{enumerate}
+		\item $\forall x,y,z \in V \ (x+y) +z = x+(y+z) \ \text{-- ассоциативность}$
+		\item $\forall x,y \in V \ x+y = y+x \ \text{-- коммутативность}$
+		\item $ \exists 0 \ \text{--нулевой вектор}: \forall x \in V \ x+0 = x $
+		\item $\forall x \in V \ \exists -x \in V : \ x+(-x) = -x+x = 0$\\
+		(V,+) -- образуют Абелеву группу.
+		\item $\forall \lambda \in \mathbb{R} \ \forall x,y \in V \ \ \lambda (x+y) = \lambda x + \lambda y$
+		\item $\forall \lambda, \mu \in \mathbb{R} \ \ \forall x \in V  \ \ ( \lambda + \mu )x = \lambda x + \mu x $
+		\item $\forall \lambda,\mu \in \mathbb{R} \ \ \forall x \in V \ \  \lambda(\mu x) = (\lambda \mu) x$
+		\item $\forall x \in V \ \ 1\cdot x = x$
+	\end{enumerate}
+	
+	\textbf{\fbox{Замечание}}\\
+	\indent Аксиома 2 следует из остальных, докажем это\\
+	\begin{equation}
+	 (1+1)(x+y) \stackrel{5}{=} (1+1)x + (1+1)y \stackrel{6,1}{=} 1\cdot x + 1\cdot x + 1 \cdot y + 1 \cdot y \stackrel{8}{=} x + x + y + y
+	\end{equation}
+	\begin{equation}
+	 (1+1)(x+y) \stackrel{6}{=} 1\cdot(x+y) + 1(x+y) \stackrel{5, 1}{=} 1\cdot x + 1 \cdot y + 1 \cdot x + 1 \cdot y \stackrel{8}{=} x + y + x + y
+	\end{equation}
+	(1) и (2) равны $\Rightarrow x+x+y+y = x+y+x+y$. Из 4 аксиомы $\exists -x, -y $ прибавим их слева и справа $\Rightarrow 0+x+y+0 = 0+y+x+0 \stackrel{3}{\Rightarrow} x + y = y+x$\\
+	
+	\textbf{\fbox{Простые следствия из аксиом}}\\
+	\begin{enumerate}
+		\item $0 \in V \ \text{единственный: если $0'$ -- второй нулевой вектор. то } 0 + 0' \Rightarrow 0' = 0$
+		\item $\forall x \in V \ \ -x \text{ тоже единственный: пусть $-x'$ -- второй } \\-x + x + (-x') = -x' + 0 = -x' \\ -x + (x+(-x')) = -x + 0 = -x \Rightarrow -x' = -x$
+		\item $\forall x \in V \  0 \cdot x = 0 : \quad (0+0)x \stackrel{0+0 = 0}{=} 0 \cdot x = 0\cdot x + 0\cdot x \Rightarrow \text{добавим противоположный вектор} \ 0 \cdot x \Rightarrow 0 \cdot x = 0$
+		\item $\forall \lambda \in \mathbb{R}\ \  \lambda \cdot 0 = 0 \text{ рассмотрим } \lambda \cdot (0+0) \text{ доказательство аналогично 3) }$
+		\item $\forall x \in V \ -x = (-1)x: \text{ Рассмотрим выражения }(1-1)\cdot x \\ 0\cdot x = 0 \text{ из (3) с другой стороны: } (1-1)\cdot x = 1\cdot x + (-1)x = x+(-1)x \ \Rightarrow \ x + (-1)x = 0 \ \Rightarrow \text{из единственности противоположного вектора} (-1)x = -x$
+	\end{enumerate}
+	
+	Определим операцию вычитания векторов: $x- y \stackrel{def}{=} x+(-y)$\\
+	
+	\textbf{\fbox{Примеры}}\\ 
+	\begin{enumerate}
+	\item[0.] ($V_3$, x ,$\lambda \cdot$)
+	\item[1.] {0} -- векторное(линейное) пространство из 1 элемента (нулевое векторное пространство) 
+	\item[2.] $\mathbb{R}$ с обычными операциями 
+	\item[3.] пусть $I$ -- некоторое множество, $(V_i)_{i \in I}$ -- семейство векторных пространств
+	\end{enumerate}
+	
+	\subsection{Определение 2. Прямое произведение}
+	\indent Прямым произведением семейства $(V_i)_{i \in I}$ называется множество\\ $\underset{i \in I}{\prod} V_{i} = \{x: I \to \underset{i \in I}{\bigcup} V_i | \ \forall i \in I \ \ x_i \in V_i \}$ с операциями $(x+y)(i)  \stackrel{def}{=} x(i) + y(i)$ -- сумма в $V_i$ и \\$(\lambda x)(i) = \lambda x(i)$ -- умножение на скаляр в $V_i$\\
+	$\prod V_{i}, +, \lambda \cdot$ -- векторное пространство\\
+	
+	Например, докажем что аксиома 5 справедлива в $V_i$.\\
+	 $(\lambda \cdot (x + y))(i) = \lambda[(x+y)(i)] = \lambda(x(i) + y(i)) = \lambda\cdot x(i) + \lambda \cdot y(i) = (\lambda x)(i) + (\lambda y)(i) = (\lambda x + \lambda y) (i) \Rightarrow \lambda(x+y) = \lambda x + \lambda y$ Ч.Т.Д.\\
+	 
+	 Также докажем что аксиома 3 справедлива для $V_i$:\\
+	 0 в ${\prod} V_{i}$ -- это функция которая $\forall i \in I \ 0(i) = 0 \ \in V_i$\\
+	 
+	 \textbf{\fbox{Важные частные случаи}}\\ 
+	 \begin{enumerate}[a.]
+	 	\item Пусть все $ \ V_i \in \mathbb{R}$: Тогда $\underset{i \in I}{\bigcup} V_i = \mathbb{R}$\\
+	 	$\prod V_i$ -- это множество всех функций из I в $\mathbb{R}$ с обычными операциями.\\
+	 	Обозначим : $\prod V_i = R^I = \{f: I \to \ \mathbb{R} \}$\\
+	 	$A = \{a_1, \dots, a_m \} \quad B = \{b_1, \dots, b_n\}$ всего имеем $n^m$ отображений из A в B
+	 	\item $I = \{1,2, \dots, n\},\ V_i = \mathbb{R} \ \forall i$\\
+	 	Обозначение $R^i = R^n = \{(x_1, \dots, x_n)| x_1, \dotso, x_n \ \in \mathbb{R}\}$\\
+	 	$x+y = (x_1 + y_1, \dotso, x_n + y_n)$;   $\lambda\cdot x = (\lambda x_1, \cdots, \lambda x_n)$\\
+	 	$R^n$ -- n-мерное арифметическое пространство 
+	 	\item $I = \{1,2\}$, $V_1 = U$, $V_2 = W$ -- два разных пространства\\
+ 	 	$\underset{i \in I}{\prod} V_i = U\times W$ -- прямое произведение\\
+ 	 	$U \times W = \{ (u,w) u \in U; w \in W\}$\\
+ 	 	$(u,w) + (u',w') = (u + u', w + w')$ -- в такой ситуации $U \times W$ называется прямой суммой  $U$ и $W$ и обозначается $\oplus $\\
+ 	 	$\lambda(u,m) = (\lambda u + \lambda w)$\\
+ 	 	\end{enumerate}
+ 	 	\subsection{Определение 3. Подпространство}
+ 	 	
+ 	 	V -- векторное пространство. Подмножество $U \subseteq V$ называется векторным(линейным) подпространством если выполнены следующие условия\\
+ 	 	\begin{enumerate}[1.]
+ 	 		\item $0 \in U$
+ 	 		\item $\forall x,y \in U \ \ x+y \in U$
+ 	 		\item $\forall x \in U \ \ , \forall \lambda \in \mathbb{R} \ \ \lambda x \in U$
+ 	 	\end{enumerate}
+ 	 	
+ 	 	\textbf{\fbox{Примеры}}\\ 
+ 	 	\begin{enumerate}[1.]\item $\{0\} \subseteq V$ -- тривиальное подпространство.\\
+ 	 	$V \subseteq V $ -- несобственное подпространство.
+ 	 	\item $(V_i)_{i \in I}$ -- семейство векторных пространств  
+ 	 	\end{enumerate}
+ 	 	
+ 	 	\subsection{Определение 4. Прямая сумма семейства}
+ 	 	Прямой суммой семейства $(V_i)_{i \in I}$ называется такое подмножество\\
+ 	 	 $\underset{i \in I}{\oplus} V_i = \{X:I \to \underset{i \in I}{\bigcup}  V_i \ | \ \forall i \in I  \ \ x(i) \in V_i$ и множество таких $i$, что $x(i) \neq 0$, конечно возможно пустое подмножество $\}$ $\subseteq \underset{i \in I}{\prod} V_i$\\
+ 	 	 
+ 	 	 Утверждение: $\underset{i \in I}{\oplus}V_i$ --подпространство в $\underset{i \in I }{\prod} V_i$\\
+ 	 	 
+ 	 	 Действительно $0 \in \underset{i \in I}{\oplus}V_i$; если x(i) = 0, то и $\lambda x(i) = 0 \forall i$ \\
+ 	 	 
+ 	 	 x+y: \begin{figure}[h!]
+ 	 	 	\begin{center}
+ 	 	 		\includegraphics[width=0.4\textwidth]{123}
+ 	 	 	\end{center}
+ 	 	 \end{figure} \\
+ 	 	 
+ 	 	x+y может быть $\neq 0$ лишь на объединение множества, где $x \neq 0$ и $y \neq 0$ 
+ 	 	
+ 	 	Объединение конечных множеств кончено.\\
+ 	 	Замечание: если множество $I$ конечно, то $\oplus V_i = \prod_i$ (множества финитных функций)\\
+ 	 	
+ 	 	\subsection{Определение 5. Отображение из векторного пространства }
+ 	 	Отображение $\phi:  V \to W$ из векторного пространства $V$ в векторное пространство $V$ в векторное производство $V$ в векторное пространство $W$ называют линейным если $\forall x,y \ \in U \ \ \lambda, \mu \mathbb{R} \ \ \phi (\lambda y + \mu x) = \lambda \phi(x) + \mu \phi(y)$\\
+ 	 	Если $\phi: V \to V$, то $\phi$ называется линейным преобразованием или линейным оператором
+\end{document}
 		
